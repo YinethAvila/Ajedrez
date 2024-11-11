@@ -1,21 +1,25 @@
 package org.example.Views;
 
-import org.example.Services.FileServices;
+import org.example.Controller.GameController;
+import org.example.Models.Table;
+import org.example.Services.Implementations.AudioServicesImpl;
+import org.example.Services.Implementations.FileServicesImpl;
 import org.example.Services.ViewServices;
 
 import javax.swing.*;
 import java.awt.*;
-import java.net.URL;
 
 public class GameView implements View {
 
     private final JPanel _panel = new JPanel(new BorderLayout());
     private final JPanel _gamePanel = new JPanel();
+    private final GameController _controller = new GameController(ViewServices.gamePath);
+    private final Table _table = _controller.getTable().get_table();
 
     @Override
     public void changeView() {
         ViewServices.mainPanel.removeAll();
-        ViewServices.playBackgroundMusic();
+        AudioServicesImpl.getInstance().playBackgroundMusic();
         showView();
         ViewServices.mainPanel.add(_panel);
         ViewServices.mainPanel.revalidate();
@@ -97,30 +101,15 @@ public class GameView implements View {
                     }
                     JLabel label = new JLabel();
                     label.setHorizontalAlignment(JLabel.CENTER);
-                    if((row == 1 && col == 1) || (row == 1 && col == 8)) {
-                        label.setIcon(FileServices.getIcon("whiteTower.png"));
-                    }else if((row == 1 && col == 2) || (row == 1 && col == 7)) {
-                        label.setIcon(FileServices.getIcon("whiteKnight.png"));
-                    }else if((row == 1 && col == 3) || (row == 1 && col == 6)) {
-                        label.setIcon(FileServices.getIcon("whiteBishop.png"));
-                    } else if (row == 1 && col == 4) {
-                        label.setIcon(FileServices.getIcon("whiteQueen.png"));
-                    } else if(row == 1 && col == 5) {
-                        label.setIcon(FileServices.getIcon("whiteKing.png"));
-                    } else if(row == 2){
-                        label.setIcon(FileServices.getIcon("whitePawn.png"));
-                    } else if (row == 7) {
-                        label.setIcon(FileServices.getIcon("blackPawn.png"));
-                    } else if ((row == 8 && col == 1) || (row == 8 && col == 8)) {
-                        label.setIcon(FileServices.getIcon("blackTower.png"));
-                    } else if ((row == 8 && col == 2) || (row == 8 && col == 7)) {
-                        label.setIcon(FileServices.getIcon("blackKnight.png"));
-                    } else if ((row == 8 && col == 3) || (row == 8 && col == 6)) {
-                        label.setIcon(FileServices.getIcon("blackBishop.png"));
-                    } else if (row == 8 && col == 4) {
-                        label.setIcon(FileServices.getIcon("blackQueen.png"));
-                    } else if(row == 8 && col == 5) {
-                        label.setIcon(FileServices.getIcon("blackKing.png"));
+                    // Busca en la matris de juego si hay alguna ficha y la dibuja, si alguna casilla de la matris es null la evita
+                    try{
+                        if(_table.table()[row-1][col-1] != null) {
+                            String color = _table.table()[row-1][col-1].color() ? "white" : "black";
+                            String piece = _table.table()[row-1][col-1].piece().getName();
+                            label.setIcon(FileServicesImpl.getInstance().getImageIcon(color.concat(piece)));
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
                     square.add(label);
                 }

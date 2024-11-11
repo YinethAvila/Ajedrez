@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class GameMetadata{
+public class Metadata {
     private String event;
     private String site;
     private String eventDate;

@@ -1,4 +1,4 @@
-package org.example.Services;
+package org.example.Services.Implementations;
 
 import lombok.Getter;
 import org.example.Models.Piece;
@@ -39,29 +39,6 @@ public class TableServices {
                     table[1][j] = new Piece(true, Pieces.PAWN);
                     table[6][j] = new Piece(false, Pieces.PAWN);
                 }
-            }
-        }
-    }
-
-    public void showTable(){
-        for(int i=0; i<8; i++){
-            if(i == 0){
-                System.out.println("   A  B  C  D  E  F  G  H ");
-                System.out.println("----------------------------");
-            }
-            System.out.print((i+1)+" ");
-            for(int j=0; j<8; j++){
-                Piece[][] table = _table.table();
-                if(table[i][j] != null){
-                    System.out.print("["+table[i][j].piece().getValue()+"]");
-                }else{
-                    System.out.print("[ ]");
-                }
-            }
-            System.out.println(" "+(8-i));
-            if(i==7){
-                System.out.println("----------------------------");
-                System.out.println("   A  B  C  D  E  F  G  H ");
             }
         }
     }

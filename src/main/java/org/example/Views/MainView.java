@@ -1,8 +1,11 @@
 package org.example.Views;
 
-import org.example.Services.FileServices;
+import org.example.Services.Implementations.FileServicesImpl;
 import org.example.Services.ViewServices;
 import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.function.Consumer;
 
 public class MainView implements View {
 
@@ -27,8 +30,19 @@ public class MainView implements View {
                 (ViewServices.frame.getHeight()/2)-20,
                 100,
                 40,
-                FileServices.getFilePath(ViewServices.frame, path->ViewServices.gamePath=path)
+                e -> {
+                    JFileChooser fileChooser = new JFileChooser("./src/main/resources/games");
+
+                    int result = fileChooser.showOpenDialog(ViewServices.frame);
+
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                        File selectedFile = fileChooser.getSelectedFile();
+                        Consumer<String> filePathConsumer = path -> ViewServices.gamePath=path;
+                        filePathConsumer.accept(selectedFile.getAbsolutePath());
+                    }
+                }
         );
+
         JButton startGame = ViewServices.createButton(
                 "Start Game",
                 (ViewServices.frame.getWidth()/3)+150,
