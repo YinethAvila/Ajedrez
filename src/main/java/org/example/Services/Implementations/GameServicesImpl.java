@@ -49,12 +49,23 @@ public class GameServicesImpl implements GameServices {
 
     @Override
     public void getTurnFromLine(String line) {
-        Pattern pattern = Pattern.compile("(\\d+\\.\\s*\\S+\\s+\\S+)");
+        // Expresión regular para capturar los movimientos de las blancas y negras
+        Pattern pattern = Pattern.compile("\\d+\\.\\s*(\\S+)\\s*(\\S+)?");
         Matcher matcher = pattern.matcher(line);
 
         while (matcher.find()) {
-            System.out.println(matcher.group(1));
-        }
+            String whiteMove = matcher.group(1); // Movimiento de las blancas
+            String blackMove = matcher.group(2); // Movimiento de las negras (puede ser null)
 
+            if (whiteMove.matches("\\d+-\\d+")) whiteMove = null;
+            if (blackMove.matches("\\d+-\\d+")) blackMove = null;
+            _turns.add(new Turn(whiteMove, blackMove));
+        }
     }
+
+    @Override
+    public ArrayList<Turn> getTurns() {
+        return _turns;
+    }
+
 }

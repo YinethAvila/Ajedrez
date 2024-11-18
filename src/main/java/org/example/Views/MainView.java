@@ -1,6 +1,10 @@
 package org.example.Views;
 
+import org.example.Services.Implementations.AudioServicesImpl;
 import org.example.Services.Implementations.FileServicesImpl;
+import org.example.Services.Implementations.GameServicesImpl;
+import org.example.Services.Implementations.TableServicesImpl;
+import org.example.Services.TableServices;
 import org.example.Services.ViewServices;
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -53,6 +57,8 @@ public class MainView implements View {
                     if (ViewServices.gamePath == null){
                         JOptionPane.showMessageDialog(ViewServices.frame, "Please select a game", "Error", JOptionPane.ERROR_MESSAGE);
                     }else{
+                        GameServicesImpl.getInstance().getGameFromFile(ViewServices.gamePath);
+                        AudioServicesImpl.getInstance().playBackgroundMusic();
                         new GameView().changeView();
                     }
                 }
