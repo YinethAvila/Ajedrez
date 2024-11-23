@@ -7,6 +7,7 @@ import org.example.Views.View;
 import javax.swing.*;
 
 public class Main {
+
     public static void main(String[] args) {
         ViewServices.xSize = 800;
         ViewServices.ySize = 600;
@@ -22,4 +23,5 @@ public class Main {
         mainView.changeView();
         ViewServices.frame.setVisible(true);
     }
+
 }
